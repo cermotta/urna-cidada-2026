@@ -167,7 +167,6 @@
     .btn-corrige { background: linear-gradient(180deg, #fb923c, #ea580c); color: #fff; box-shadow: 0 3px 0 #9a3412; }
     .btn-confirma { background: linear-gradient(180deg, #4ade80, #16a34a); color: #fff; box-shadow: 0 3px 0 #14532d; font-size: 12px; }
 
-    /* Painel de Apuração */
     .painel-apuracao {
       background: var(--card-bg);
       border: 1px solid #334155;
@@ -178,36 +177,8 @@
       max-width: 900px;
     }
 
-    .painel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .painel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
     .painel-header h2 { font-size: 18px; font-weight: 700; color: #f8fafc; }
-
-    .filtro-apuracao {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-    }
-    .filtro-apuracao select {
-      padding: 6px 12px;
-      font-size: 14px;
-      border-radius: 6px;
-      border: 1px solid #475569;
-      background-color: #0f172a;
-      color: #38bdf8;
-      font-weight: 700;
-      outline: none;
-      cursor: pointer;
-    }
-
     .candidato-linha { margin-bottom: 18px; }
     .candidato-info-flex { display: flex; justify-content: space-between; font-size: 15px; font-weight: 600; margin-bottom: 6px; }
 
@@ -247,14 +218,11 @@
     window.dbRef = ref;
     window.runTransaction = runTransaction;
 
-    // Objeto global de dados recebidos do Firebase
-    window.dadosFirebaseGlobal = {};
-
-    // Escutar todo o banco de dados em tempo real
-    const rootRef = ref(db);
-    onValue(rootRef, (snapshot) => {
-      window.dadosFirebaseGlobal = snapshot.val() || {};
-      window.renderizarApuracao();
+    // Escutar contagem global de votos em tempo real
+    const votosRef = ref(db, 'votos');
+    onValue(votosRef, (snapshot) => {
+      const data = snapshot.val() || { v22: 0, v13: 0, outros: 0, total: 0 };
+      window.atualizarApuracaoGlobal(data);
     });
   </script>
 </head>
@@ -280,7 +248,7 @@
     <p class="header-sub">Levantamento e Pesquisa Independente de Intenção de Voto</p>
   </div>
 
-  <!-- Seleção de Estado para Votação -->
+  <!-- Seleção de Estado -->
   <div class="seletor-card">
     <label for="uf">📍 Selecione seu Estado para Votar:</label>
     <select id="uf" onchange="selecionarEstado()">
@@ -336,27 +304,10 @@
     </div>
   </div>
 
-  <!-- Apuração Global e por Estado -->
+  <!-- Apuração Global em Tempo Real -->
   <div class="painel-apuracao">
     <div class="painel-header">
-      <h2>📊 Resultado da Apuração</h2>
-      
-      <div class="filtro-apuracao">
-        <label for="filtro-uf">Filtrar por:</label>
-        <select id="filtro-uf" onchange="renderizarApuracao()">
-          <option value="BRASIL">🇧🇷 Brasil (Geral)</option>
-          <option value="AC">Acre (AC)</option><option value="AL">Alagoas (AL)</option><option value="AP">Amapá (AP)</option>
-          <option value="AM">Amazonas (AM)</option><option value="BA">Bahia (BA)</option><option value="CE">Ceará (CE)</option>
-          <option value="DF">Distrito Federal (DF)</option><option value="ES">Espírito Santo (ES)</option><option value="GO">Goiás (GO)</option>
-          <option value="MA">Maranhão (MA)</option><option value="MT">Mato Grosso (MT)</option><option value="MS">Mato Grosso do Sul (MS)</option>
-          <option value="MG">Minas Gerais (MG)</option><option value="PA">Pará (PA)</option><option value="PB">Paraíba (PB)</option>
-          <option value="PR">Paraná (PR)</option><option value="PE">Pernambuco (PE)</option><option value="PI">Piauí (PI)</option>
-          <option value="RJ">Rio de Janeiro (RJ)</option><option value="RN">Rio Grande do Norte (RN)</option><option value="RS">Rio Grande do Sul (RS)</option>
-          <option value="RO">Rondônia (RO)</option><option value="RR">Roraima (RR)</option><option value="SC">Santa Catarina (SC)</option>
-          <option value="SP">São Paulo (SP)</option><option value="SE">Sergipe (SE)</option><option value="TO">Tocantins (TO)</option>
-        </select>
-      </div>
-
+      <h2>📊 Resultado Geral da Apuração (Global)</h2>
       <span style="font-size: 14px; color: var(--text-muted);">Total de votos: <strong id="total-votos" style="color: #fff;">0</strong></span>
     </div>
     
@@ -504,34 +455,21 @@
         somPirililili();
 
         const db = window.firebaseDB;
-        const rootRef = window.dbRef(db);
+        const votosRef = window.dbRef(db, 'votos');
 
-        // Transação para salvar o voto Global E por Estado
-        window.runTransaction(rootRef, (data) => {
-          if (!data) data = {};
-          if (!data.votos) data.votos = { v22: 0, v13: 0, outros: 0, total: 0 };
-          if (!data.estados) data.estados = {};
-          if (!data.estados[estadoSelecionado]) {
-            data.estados[estadoSelecionado] = { v22: 0, v13: 0, outros: 0, total: 0 };
+        window.runTransaction(votosRef, (currentData) => {
+          if (!currentData) {
+            currentData = { v22: 0, v13: 0, outros: 0, total: 0 };
           }
-
-          const ufData = data.estados[estadoSelecionado];
-
           if (numeroDigitado === "22") {
-            data.votos.v22 = (data.votos.v22 || 0) + 1;
-            ufData.v22 = (ufData.v22 || 0) + 1;
+            currentData.v22 = (currentData.v22 || 0) + 1;
           } else if (numeroDigitado === "13") {
-            data.votos.v13 = (data.votos.v13 || 0) + 1;
-            ufData.v13 = (ufData.v13 || 0) + 1;
+            currentData.v13 = (currentData.v13 || 0) + 1;
           } else {
-            data.votos.outros = (data.votos.outros || 0) + 1;
-            ufData.outros = (ufData.outros || 0) + 1;
+            currentData.outros = (currentData.outros || 0) + 1;
           }
-
-          data.votos.total = (data.votos.total || 0) + 1;
-          ufData.total = (ufData.total || 0) + 1;
-
-          return data;
+          currentData.total = (currentData.total || 0) + 1;
+          return currentData;
         });
 
         localStorage.setItem("jaVotouSimulador", "true");
@@ -541,22 +479,10 @@
       }
     }
 
-    // Função para renderizar a apuração (Geral ou por Estado)
-    window.renderizarApuracao = function() {
-      const filtro = document.getElementById("filtro-uf").value;
-      const data = window.dadosFirebaseGlobal || {};
-      
-      let apuracao = { v22: 0, v13: 0, outros: 0, total: 0 };
-
-      if (filtro === "BRASIL") {
-        apuracao = data.votos || apuracao;
-      } else if (data.estados && data.estados[filtro]) {
-        apuracao = data.estados[filtro];
-      }
-
-      const total = apuracao.total || 0;
-      const v22 = apuracao.v22 || 0;
-      const v13 = apuracao.v13 || 0;
+    window.atualizarApuracaoGlobal = function(data) {
+      const total = data.total || 0;
+      const v22 = data.v22 || 0;
+      const v13 = data.v13 || 0;
 
       const p22 = total > 0 ? ((v22 / total) * 100).toFixed(1) : "0.0";
       const p13 = total > 0 ? ((v13 / total) * 100).toFixed(1) : "0.0";
