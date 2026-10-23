@@ -131,6 +131,7 @@
       color: #0f172a;
     }
 
+    /* Moldura da Foto do Candidato */
     .foto-candidato {
       position: absolute;
       right: 20px;
@@ -139,11 +140,15 @@
       height: 135px;
       border: 2px solid #0f172a;
       border-radius: 4px;
-      background-color: #cbd5e1;
-      background-size: cover;
-      background-position: center;
+      background-color: #ffffff;
       display: none;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .foto-candidato svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .digitos-box { display: flex; gap: 8px; margin: 15px 0; }
@@ -316,7 +321,6 @@
   <!-- Cabeçalho com a Logo Urna Cidadã 2026 -->
   <div class="header-container">
     <svg class="logo-svg" width="280" height="65" viewBox="0 0 280 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Ícone da Urna -->
       <rect x="5" y="8" width="50" height="50" rx="12" fill="url(#logo_gradiente)"/>
       <rect x="15" y="19" width="30" height="22" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="2"/>
       <rect x="19" y="23" width="12" height="14" rx="1" fill="#22C55E"/>
@@ -324,7 +328,6 @@
       <circle cx="37" cy="32" r="2" fill="#3B82F6"/>
       <path d="M22 30L24 32L28 26" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-      <!-- Texto do Nome do Site -->
       <text x="68" y="36" font-family="'Inter', sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">
         Urna<tspan fill="#38BDF8">Cidadã</tspan>
       </text>
@@ -431,10 +434,24 @@
   </div>
 
   <script>
-    // Mapeamento dos Candidatos
+    // Ilustrações Vetoriais em SVG dos Candidatos
+    const svgFlavio = `<svg viewBox="0 0 110 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="110" height="135" fill="#1E293B"/>
+      <circle cx="55" cy="48" r="24" fill="#3B82F6"/>
+      <path d="M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z" fill="#3B82F6"/>
+      <text x="55" y="128" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle">FLÁVIO (22)</text>
+    </svg>`;
+
+    const svgLula = `<svg viewBox="0 0 110 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="110" height="135" fill="#1E293B"/>
+      <circle cx="55" cy="48" r="24" fill="#EF4444"/>
+      <path d="M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z" fill="#EF4444"/>
+      <text x="55" y="128" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle">LULA (13)</text>
+    </svg>`;
+
     const candidatos = {
-      "22": { nome: "Flávio Bolsonaro", partido: "PL", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg/240px-Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg" },
-      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Lula_-_Foto_oficial_05_jan_2023.jpg/240px-Lula_-_Foto_oficial_05_jan_2023.jpg" }
+      "22": { nome: "Flávio Bolsonaro", partido: "PL", svg: svgFlavio },
+      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", svg: svgLula }
     };
 
     let numeroDigitado = "";
@@ -442,19 +459,46 @@
     let estadoSelecionado = "";
     let jaVotou = localStorage.getItem("jaVotouSimulador");
 
-    // Efeitos Sonoros da Urna
+    // Sistema de Áudio da Urna Eletrônica Oficial
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(freq, duration) {
+
+    function somTecla() {
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(1250, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + duration);
+      osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    // Som Fim / Confirma Oficial ("Pirililililili")
+    function somPirililili() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.2, now);
+
+      // Sequência de Notas do Fim da Urna Oficial
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.setValueAtTime(660, now + 0.08);
+      osc.frequency.setValueAtTime(880, now + 0.16);
+      osc.frequency.setValueAtTime(1040, now + 0.24);
+      osc.frequency.setValueAtTime(1320, now + 0.32);
+      osc.frequency.setValueAtTime(1760, now + 0.40);
+      osc.frequency.setValueAtTime(2100, now + 0.48); // Apito longo final
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 1.1);
     }
 
     let votosGerais = JSON.parse(localStorage.getItem("votosGerais")) || { "22": 0, "13": 0, "outros": 0, "total": 0 };
@@ -472,6 +516,7 @@
       if (eBranco) {
         infoEl.innerHTML = "<br/><strong>VOTO EM BRANCO</strong>";
         fotoEl.style.display = "none";
+        fotoEl.innerHTML = "";
         return;
       }
 
@@ -484,15 +529,17 @@
         if (candidatos[numeroDigitado]) {
           const cand = candidatos[numeroDigitado];
           infoEl.innerHTML = `Nome: <strong>${cand.nome}</strong><br/>Partido: <strong>${cand.partido}</strong>`;
-          fotoEl.style.backgroundImage = `url('${cand.foto}')`;
+          fotoEl.innerHTML = cand.svg;
           fotoEl.style.display = "block";
         } else {
           infoEl.innerHTML = "<br/><strong>VOTO NULO</strong>";
           fotoEl.style.display = "none";
+          fotoEl.innerHTML = "";
         }
       } else {
         infoEl.innerHTML = "";
         fotoEl.style.display = "none";
+        fotoEl.innerHTML = "";
       }
     }
 
@@ -500,7 +547,7 @@
       if (!estadoSelecionado) { alert("Por favor, selecione seu estado primeiro!"); return; }
       if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
       if (eBranco || numeroDigitado.length >= 2) return;
-      playBeep(440, 0.05);
+      somTecla();
       numeroDigitado += n;
       atualizarTela();
     }
@@ -508,7 +555,7 @@
     function votarBranco() {
       if (!estadoSelecionado) { alert("Por favor, selecione seu estado primeiro!"); return; }
       if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
-      playBeep(440, 0.05);
+      somTecla();
       eBranco = true;
       numeroDigitado = "";
       atualizarTela();
@@ -516,7 +563,7 @@
 
     function corrigir() {
       if (jaVotou) return;
-      playBeep(440, 0.05);
+      somTecla();
       numeroDigitado = "";
       eBranco = false;
       atualizarTela();
@@ -527,7 +574,8 @@
       if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
 
       if (eBranco || numeroDigitado.length === 2) {
-        playBeep(800, 0.25);
+        somPirililili();
+
         if (candidatos[numeroDigitado]) {
           votosGerais[numeroDigitado]++;
         } else {
