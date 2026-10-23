@@ -279,4 +279,269 @@
     .candidato-info-flex {
       display: flex;
       justify-content: space-between;
-      font-size:
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .barra-bg {
+      background: #0f172a;
+      height: 16px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+
+    .barra-fill {
+      height: 100%;
+      border-radius: 20px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fill-flavio { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .fill-lula { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+    .fim-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-title">
+    <h1>Simulador de Urna Eletrônica</h1>
+    <p>Levantamento e Pesquisa de Intenção de Voto</p>
+  </div>
+
+  <!-- Seleção do Estado -->
+  <div class="seletor-card">
+    <label for="uf">📍 Estado da Votação:</label>
+    <select id="uf" onchange="selecionarEstado()">
+      <option value="">-- Escolha o seu Estado --</option>
+      <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+      <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+      <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+      <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+      <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+      <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+      <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+      <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+      <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+    </select>
+  </div>
+
+  <!-- Urna -->
+  <div class="urna-container">
+    <div class="tela-container" id="tela">
+      <div>
+        <div class="tela-header">Seu voto para</div>
+        <div class="cargo-titulo" id="cargo">PRESIDENTE</div>
+        <div class="digitos-box" id="digitos"></div>
+        <div class="info-candidato" id="info"></div>
+      </div>
+      <div class="foto-candidato" id="foto"></div>
+      <div class="instrucoes">
+        Aperte a tecla:<br/>
+        <strong>CONFIRMA</strong> para CONFIRMAR este voto<br/>
+        <strong>CORRIGE</strong> para REINICIAR este voto
+      </div>
+    </div>
+
+    <div class="teclado-container">
+      <div class="teclado-header">Justiça Eleitoral</div>
+      <div class="teclado-numerico">
+        <button class="btn-num" onclick="inserirNumero('1')">1</button>
+        <button class="btn-num" onclick="inserirNumero('2')">2</button>
+        <button class="btn-num" onclick="inserirNumero('3')">3</button>
+        <button class="btn-num" onclick="inserirNumero('4')">4</button>
+        <button class="btn-num" onclick="inserirNumero('5')">5</button>
+        <button class="btn-num" onclick="inserirNumero('6')">6</button>
+        <button class="btn-num" onclick="inserirNumero('7')">7</button>
+        <button class="btn-num" onclick="inserirNumero('8')">8</button>
+        <button class="btn-num" onclick="inserirNumero('9')">9</button>
+        <button class="btn-num" style="grid-column: 2;" onclick="inserirNumero('0')">0</button>
+      </div>
+      <div class="teclado-acoes">
+        <button class="btn-acao btn-branco" onclick="votarBranco()">Branco</button>
+        <button class="btn-acao btn-corrige" onclick="corrigir()">Corrige</button>
+        <button class="btn-acao btn-confirma" onclick="confirmar()">Confirma</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Painel de Apuração -->
+  <div class="painel-apuracao">
+    <div class="painel-header">
+      <h2>📊 Resultado Geral da Apuração</h2>
+      <span style="font-size: 14px; color: var(--text-muted);">Total de votos: <strong id="total-votos" style="color: #fff;">0</strong></span>
+    </div>
+    
+    <div>
+      <!-- Candidato Flávio -->
+      <div class="candidato-linha">
+        <div class="candidato-info-flex">
+          <span>🔵 Flávio Bolsonaro (22)</span>
+          <span><strong id="votos-22">0</strong> votos (<span id="perc-22">0%</span>)</span>
+        </div>
+        <div class="barra-bg">
+          <div class="barra-fill fill-flavio" id="barra-22" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Candidato Lula -->
+      <div class="candidato-linha">
+        <div class="candidato-info-flex">
+          <span>🔴 Lula (13)</span>
+          <span><strong id="votos-13">0</strong> votos (<span id="perc-13">0%</span>)</span>
+        </div>
+        <div class="barra-bg">
+          <div class="barra-fill fill-lula" id="barra-13" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuração dos Candidatos (Substitua as imagens se desejar)
+    const candidatos = {
+      "22": { nome: "Flávio Bolsonaro", partido: "PL", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg/240px-Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg" },
+      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Lula_-_Foto_oficial_05_jan_2023.jpg/240px-Lula_-_Foto_oficial_05_jan_2023.jpg" }
+    };
+
+    let numeroDigitado = "";
+    let eBranco = false;
+    let estadoSelecionado = "";
+    let jaVotou = localStorage.getItem("jaVotouSimulador");
+
+    // Som da Urna via AudioContext
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq, duration) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    let votosGerais = JSON.parse(localStorage.getItem("votosGerais")) || { "22": 0, "13": 0, "outros": 0, "total": 0 };
+
+    function selecionarEstado() {
+      estadoSelecionado = document.getElementById("uf").value;
+    }
+
+    function atualizarTela() {
+      const digitosEl = document.getElementById("digitos");
+      const infoEl = document.getElementById("info");
+      const fotoEl = document.getElementById("foto");
+      digitosEl.innerHTML = "";
+
+      if (eBranco) {
+        infoEl.innerHTML = "<br/><strong>VOTO EM BRANCO</strong>";
+        fotoEl.style.display = "none";
+        return;
+      }
+
+      for (let i = 0; i < 2; i++) {
+        const char = numeroDigitado[i] || "";
+        digitosEl.innerHTML += `<div class="digito">${char}</div>`;
+      }
+
+      if (numeroDigitado.length === 2) {
+        if (candidatos[numeroDigitado]) {
+          const cand = candidatos[numeroDigitado];
+          infoEl.innerHTML = `Nome: <strong>${cand.nome}</strong><br/>Partido: <strong>${cand.partido}</strong>`;
+          fotoEl.style.backgroundImage = `url('${cand.foto}')`;
+          fotoEl.style.display = "block";
+        } else {
+          infoEl.innerHTML = "<br/><strong>VOTO NULO</strong>";
+          fotoEl.style.display = "none";
+        }
+      } else {
+        infoEl.innerHTML = "";
+        fotoEl.style.display = "none";
+      }
+    }
+
+    function inserirNumero(n) {
+      if (!estadoSelecionado) { alert("Por favor, selecione seu estado primeiro!"); return; }
+      if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
+      if (eBranco || numeroDigitado.length >= 2) return;
+      playBeep(440, 0.05);
+      numeroDigitado += n;
+      atualizarTela();
+    }
+
+    function votarBranco() {
+      if (!estadoSelecionado) { alert("Por favor, selecione seu estado primeiro!"); return; }
+      if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
+      playBeep(440, 0.05);
+      eBranco = true;
+      numeroDigitado = "";
+      atualizarTela();
+    }
+
+    function corrigir() {
+      if (jaVotou) return;
+      playBeep(440, 0.05);
+      numeroDigitado = "";
+      eBranco = false;
+      atualizarTela();
+    }
+
+    function confirmar() {
+      if (!estadoSelecionado) { alert("Selecione seu estado antes de confirmar!"); return; }
+      if (jaVotou) { alert("Você já registrou seu voto neste dispositivo!"); return; }
+
+      if (eBranco || numeroDigitado.length === 2) {
+        playBeep(800, 0.25);
+        if (candidatos[numeroDigitado]) {
+          votosGerais[numeroDigitado]++;
+        } else {
+          votosGerais["outros"]++;
+        }
+        votosGerais["total"]++;
+
+        localStorage.setItem("jaVotouSimulador", "true");
+        localStorage.setItem("votosGerais", JSON.stringify(votosGerais));
+        jaVotou = true;
+
+        document.getElementById("tela").innerHTML = `<div class="fim-screen">FIM</div>`;
+        atualizarApuracao();
+      }
+    }
+
+    function atualizarApuracao() {
+      const total = votosGerais.total || 0;
+      const v22 = votosGerais["22"];
+      const v13 = votosGerais["13"];
+
+      const p22 = total > 0 ? ((v22 / total) * 100).toFixed(1) : "0.0";
+      const p13 = total > 0 ? ((v13 / total) * 100).toFixed(1) : "0.0";
+
+      document.getElementById("total-votos").innerText = total;
+      document.getElementById("votos-22").innerText = v22;
+      document.getElementById("perc-22").innerText = p22 + "%";
+      document.getElementById("barra-22").style.width = p22 + "%";
+
+      document.getElementById("votos-13").innerText = v13;
+      document.getElementById("perc-13").innerText = p13 + "%";
+      document.getElementById("barra-13").style.width = p13 + "%";
+    }
+
+    atualizarTela();
+    atualizarApuracao();
+  </script>
+</body>
+</html>
