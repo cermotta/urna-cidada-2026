@@ -435,14 +435,18 @@
   </div>
 
   <script>
-    // Imagens dinâmicas geradas em SVG (vetoriais)
-    const imgFlavio = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 135'><rect width='110' height='135' fill='%231E293B'/><circle cx='55' cy='48' r='24' fill='%233B82F6'/><path d='M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z' fill='%233B82F6'/><text x='55' y='128' font-family='sans-serif' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>FL%C3%81VIO (22)</text></svg>";
-
-    const imgLula = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 135'><rect width='110' height='135' fill='%231E293B'/><circle cx='55' cy='48' r='24' fill='%23EF4444'/><path d='M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z' fill='%23EF4444'/><text x='55' y='128' font-family='sans-serif' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>LULA (13)</text></svg>";
-
+    // Mapeamento com as imagens fornecidas
     const candidatos = {
-      "22": { nome: "Flávio Bolsonaro", partido: "PL", fotoUrl: imgFlavio },
-      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", fotoUrl: imgLula }
+      "22": { 
+        nome: "Flávio Bolsonaro", 
+        partido: "PL", 
+        fotoUrl: "https://f.i.uol.com.br//folha/eleicoes/2026/br/brasil/1_123763.jpg" 
+      },
+      "13": { 
+        nome: "Luiz Inácio Lula da Silva", 
+        partido: "PT", 
+        fotoUrl: "https://www.estadao.com.br/resizer/v2/Q7UAVINNGBCJJLLFK4B72OX2GQ.jpg?quality=80&auth=d86d94ca2a3d56cf98a2eb8fecad0bd74112d2fb662f08966bf1479aaec31882&width=380" 
+      }
     };
 
     let numeroDigitado = "";
@@ -518,7 +522,7 @@
         if (candidatos[numeroDigitado]) {
           const cand = candidatos[numeroDigitado];
           infoEl.innerHTML = `Nome: <strong>${cand.nome}</strong><br/>Partido: <strong>${cand.partido}</strong>`;
-          fotoEl.innerHTML = `<img src="${cand.fotoUrl}" alt="${cand.nome}">`;
+          fotoEl.innerHTML = `<img src="${cand.fotoUrl}" alt="${cand.nome}" referrerpolicy="no-referrer">`;
           fotoEl.style.display = "block";
         } else {
           infoEl.innerHTML = "<br/><strong>VOTO NULO</strong>";
