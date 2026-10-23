@@ -30,7 +30,6 @@
       min-height: 100vh;
     }
 
-    /* Cabeçalho e Logo */
     .header-container {
       display: flex;
       flex-direction: column;
@@ -39,17 +38,9 @@
       text-align: center;
     }
 
-    .logo-svg {
-      max-width: 100%;
-      height: auto;
-    }
+    .logo-svg { max-width: 100%; height: auto; }
+    .header-sub { color: var(--text-muted); font-size: 14px; }
 
-    .header-sub {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* Seletor do Estado */
     .seletor-card {
       background: var(--card-bg);
       border: 1px solid #334155;
@@ -64,11 +55,7 @@
       max-width: 900px;
       flex-wrap: wrap;
     }
-    .seletor-card label {
-      font-weight: 600;
-      font-size: 15px;
-      color: #e2e8f0;
-    }
+    .seletor-card label { font-weight: 600; font-size: 15px; color: #e2e8f0; }
     .seletor-card select {
       padding: 10px 16px;
       font-size: 15px;
@@ -78,14 +65,8 @@
       color: #fff;
       outline: none;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-    .seletor-card select:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
     }
 
-    /* Estrutura da Urna */
     .urna-container {
       background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
       border: 2px solid #94a3b8;
@@ -95,11 +76,10 @@
       gap: 28px;
       max-width: 900px;
       width: 100%;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.8);
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
       flex-wrap: wrap;
     }
 
-    /* Tela da Urna */
     .tela-container {
       flex: 1.3;
       background-color: var(--screen-bg);
@@ -112,26 +92,11 @@
       justify-content: space-between;
       position: relative;
       color: #0f172a;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
     }
 
-    .tela-header {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #475569;
-      letter-spacing: 0.5px;
-    }
+    .tela-header { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #475569; }
+    .cargo-titulo { font-size: 22px; font-weight: 800; margin-top: 4px; margin-bottom: 15px; color: #0f172a; }
 
-    .cargo-titulo {
-      font-size: 22px;
-      font-weight: 800;
-      margin-top: 4px;
-      margin-bottom: 15px;
-      color: #0f172a;
-    }
-
-    /* Moldura da Foto do Candidato (Ajustada) */
     .foto-candidato {
       position: absolute;
       right: 20px;
@@ -167,22 +132,9 @@
       background: #fff;
     }
 
-    .info-candidato {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #1e293b;
-      margin-top: 10px;
-    }
+    .info-candidato { font-size: 16px; line-height: 1.6; color: #1e293b; margin-top: 10px; }
+    .instrucoes { border-top: 2px solid #cbd5e1; padding-top: 10px; font-size: 12px; color: #64748b; }
 
-    .instrucoes {
-      border-top: 2px solid #cbd5e1;
-      padding-top: 10px;
-      font-size: 12px;
-      color: #64748b;
-      line-height: 1.4;
-    }
-
-    /* Teclado da Urna */
     .teclado-container {
       flex: 0.9;
       background-color: #1e293b;
@@ -191,24 +143,10 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 15px -3px rgba(0,0,0,0.3);
     }
     
-    .teclado-header {
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: #94a3b8;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-    }
-
-    .teclado-numerico {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
+    .teclado-header { text-align: center; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+    .teclado-numerico { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
     .btn-num {
       background: linear-gradient(180deg, #2a374a, #111827);
@@ -220,38 +158,15 @@
       border-radius: 8px;
       cursor: pointer;
       box-shadow: 0 4px 0 #000;
-      transition: all 0.1s ease;
     }
-    .btn-num:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #000;
-    }
+    .btn-num:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
 
-    .teclado-acoes {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .btn-acao {
-      flex: 1;
-      padding: 14px 4px;
-      font-size: 11px;
-      font-weight: 800;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.1s ease;
-    }
-    .btn-acao:active { transform: translateY(2px); }
-
+    .teclado-acoes { display: flex; gap: 8px; margin-top: 8px; }
+    .btn-acao { flex: 1; padding: 14px 4px; font-size: 11px; font-weight: 800; border-radius: 6px; border: none; cursor: pointer; text-transform: uppercase; }
     .btn-branco { background: linear-gradient(180deg, #ffffff, #e2e8f0); color: #0f172a; box-shadow: 0 3px 0 #94a3b8; }
     .btn-corrige { background: linear-gradient(180deg, #fb923c, #ea580c); color: #fff; box-shadow: 0 3px 0 #9a3412; }
     .btn-confirma { background: linear-gradient(180deg, #4ade80, #16a34a); color: #fff; box-shadow: 0 3px 0 #14532d; font-size: 12px; }
 
-    /* Painel de Apuração */
     .painel-apuracao {
       background: var(--card-bg);
       border: 1px solid #334155;
@@ -262,65 +177,51 @@
       max-width: 900px;
     }
 
-    .painel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 12px;
-    }
+    .painel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+    .painel-header h2 { font-size: 18px; font-weight: 700; color: #f8fafc; }
+    .candidato-linha { margin-bottom: 18px; }
+    .candidato-info-flex { display: flex; justify-content: space-between; font-size: 15px; font-weight: 600; margin-bottom: 6px; }
 
-    .painel-header h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #f8fafc;
-    }
-
-    .candidato-linha {
-      margin-bottom: 18px;
-    }
-
-    .candidato-info-flex {
-      display: flex;
-      justify-content: space-between;
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .barra-bg {
-      background: #0f172a;
-      height: 16px;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid #334155;
-    }
-
-    .barra-fill {
-      height: 100%;
-      border-radius: 20px;
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
+    .barra-bg { background: #0f172a; height: 16px; border-radius: 20px; overflow: hidden; border: 1px solid #334155; }
+    .barra-fill { height: 100%; border-radius: 20px; transition: width 0.6s ease; }
     .fill-flavio { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
     .fill-lula { background: linear-gradient(90deg, #ef4444, #f87171); }
 
-    .fim-screen {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      font-size: 64px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: #0f172a;
-    }
+    .fim-screen { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 64px; font-weight: 900; color: #0f172a; }
   </style>
+
+  <!-- Módulos do Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // As suas chaves do Firebase obtidas no ecrã
+    const firebaseConfig = {
+      apiKey: "AIzaSyBW9xg0FUcGRuhpXcGCUvTcl0-igLhVeSc",
+      authDomain: "urna-cidada-2026.firebaseapp.com",
+      projectId: "urna-cidada-2026",
+      storageBucket: "urna-cidada-2026.firebasestorage.app",
+      messagingSenderId: "196675650467",
+      appId: "1:196675650467:web:454be21688c456ecf5d016"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    window.firebaseDB = db;
+    window.dbRef = ref;
+    window.runTransaction = runTransaction;
+
+    // Escutar contagem global de votos em tempo real
+    const votosRef = ref(db, 'votos');
+    onValue(votosRef, (snapshot) => {
+      const data = snapshot.val() || { v22: 0, v13: 0, outros: 0, total: 0 };
+      window.atualizarApuracaoGlobal(data);
+    });
+  </script>
 </head>
 <body>
 
-  <!-- Cabeçalho com a Logo Urna Cidadã 2026 -->
+  <!-- Logo -->
   <div class="header-container">
     <svg class="logo-svg" width="280" height="65" viewBox="0 0 280 65" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="5" y="8" width="50" height="50" rx="12" fill="url(#logo_gradiente)"/>
@@ -329,25 +230,18 @@
       <circle cx="37" cy="26" r="2" fill="#F97316"/>
       <circle cx="37" cy="32" r="2" fill="#3B82F6"/>
       <path d="M22 30L24 32L28 26" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-      <text x="68" y="36" font-family="'Inter', sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">
-        Urna<tspan fill="#38BDF8">Cidadã</tspan>
-      </text>
-      <text x="68" y="50" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="2">
-        SIMULADOR 2026
-      </text>
-
+      <text x="68" y="36" font-family="'Inter', sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">Urna<tspan fill="#38BDF8">Cidadã</tspan></text>
+      <text x="68" y="50" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="2">SIMULADOR 2026</text>
       <defs>
         <linearGradient id="logo_gradiente" x1="5" y1="8" x2="55" y2="58" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#1E293B"/>
-          <stop offset="1" stop-color="#0F172A"/>
+          <stop stop-color="#1E293B"/><stop offset="1" stop-color="#0F172A"/>
         </linearGradient>
       </defs>
     </svg>
     <p class="header-sub">Levantamento e Pesquisa Independente de Intenção de Voto</p>
   </div>
 
-  <!-- Seleção do Estado -->
+  <!-- Seleção de Estado -->
   <div class="seletor-card">
     <label for="uf">📍 Selecione seu Estado para Votar:</label>
     <select id="uf" onchange="selecionarEstado()">
@@ -403,51 +297,36 @@
     </div>
   </div>
 
-  <!-- Painel de Apuração -->
+  <!-- Apuração Global em Tempo Real -->
   <div class="painel-apuracao">
     <div class="painel-header">
-      <h2>📊 Resultado Geral da Apuração</h2>
+      <h2>📊 Resultado Geral da Apuração (Global)</h2>
       <span style="font-size: 14px; color: var(--text-muted);">Total de votos: <strong id="total-votos" style="color: #fff;">0</strong></span>
     </div>
     
     <div>
-      <!-- Candidato Flávio -->
       <div class="candidato-linha">
         <div class="candidato-info-flex">
           <span>🔵 Flávio Bolsonaro (22)</span>
           <span><strong id="votos-22">0</strong> votos (<span id="perc-22">0%</span>)</span>
         </div>
-        <div class="barra-bg">
-          <div class="barra-fill fill-flavio" id="barra-22" style="width: 0%;"></div>
-        </div>
+        <div class="barra-bg"><div class="barra-fill fill-flavio" id="barra-22" style="width: 0%;"></div></div>
       </div>
 
-      <!-- Candidato Lula -->
       <div class="candidato-linha">
         <div class="candidato-info-flex">
           <span>🔴 Lula (13)</span>
           <span><strong id="votos-13">0</strong> votos (<span id="perc-13">0%</span>)</span>
         </div>
-        <div class="barra-bg">
-          <div class="barra-fill fill-lula" id="barra-13" style="width: 0%;"></div>
-        </div>
+        <div class="barra-bg"><div class="barra-fill fill-lula" id="barra-13" style="width: 0%;"></div></div>
       </div>
     </div>
   </div>
 
   <script>
-    // Mapeamento com as imagens e referrer ajustados
     const candidatos = {
-      "22": { 
-        nome: "Flávio Bolsonaro", 
-        partido: "PL", 
-        fotoUrl: "https://f.i.uol.com.br//folha/eleicoes/2026/br/brasil/1_123763.jpg" 
-      },
-      "13": { 
-        nome: "Luiz Inácio Lula da Silva", 
-        partido: "PT", 
-        fotoUrl: "https://www.estadao.com.br/resizer/v2/Q7UAVINNGBCJJLLFK4B72OX2GQ.jpg?quality=80&auth=d86d94ca2a3d56cf98a2eb8fecad0bd74112d2fb662f08966bf1479aaec31882&width=380" 
-      }
+      "22": { nome: "Flávio Bolsonaro", partido: "PL", fotoUrl: "https://f.i.uol.com.br//folha/eleicoes/2026/br/brasil/1_123763.jpg" },
+      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", fotoUrl: "https://www.estadao.com.br/resizer/v2/Q7UAVINNGBCJJLLFK4B72OX2GQ.jpg?quality=80&auth=d86d94ca2a3d56cf98a2eb8fecad0bd74112d2fb662f08966bf1479aaec31882&width=380" }
     };
 
     let numeroDigitado = "";
@@ -455,7 +334,6 @@
     let estadoSelecionado = "";
     let jaVotou = localStorage.getItem("jaVotouSimulador");
 
-    // Sistema de Áudio da Urna Eletrônica
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function somTecla() {
@@ -476,10 +354,8 @@
       const now = audioCtx.currentTime;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      
       osc.type = 'sine';
       gain.gain.setValueAtTime(0.2, now);
-
       osc.frequency.setValueAtTime(520, now);
       osc.frequency.setValueAtTime(660, now + 0.08);
       osc.frequency.setValueAtTime(880, now + 0.16);
@@ -487,15 +363,11 @@
       osc.frequency.setValueAtTime(1320, now + 0.32);
       osc.frequency.setValueAtTime(1760, now + 0.40);
       osc.frequency.setValueAtTime(2100, now + 0.48);
-
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-
       osc.start(now);
       osc.stop(now + 1.1);
     }
-
-    let votosGerais = JSON.parse(localStorage.getItem("votosGerais")) || { "22": 0, "13": 0, "outros": 0, "total": 0 };
 
     function selecionarEstado() {
       estadoSelecionado = document.getElementById("uf").value;
@@ -570,26 +442,35 @@
       if (eBranco || numeroDigitado.length === 2) {
         somPirililili();
 
-        if (candidatos[numeroDigitado]) {
-          votosGerais[numeroDigitado]++;
-        } else {
-          votosGerais["outros"]++;
-        }
-        votosGerais["total"]++;
+        const db = window.firebaseDB;
+        const votosRef = window.dbRef(db, 'votos');
+
+        window.runTransaction(votosRef, (currentData) => {
+          if (!currentData) {
+            currentData = { v22: 0, v13: 0, outros: 0, total: 0 };
+          }
+          if (numeroDigitado === "22") {
+            currentData.v22 = (currentData.v22 || 0) + 1;
+          } else if (numeroDigitado === "13") {
+            currentData.v13 = (currentData.v13 || 0) + 1;
+          } else {
+            currentData.outros = (currentData.outros || 0) + 1;
+          }
+          currentData.total = (currentData.total || 0) + 1;
+          return currentData;
+        });
 
         localStorage.setItem("jaVotouSimulador", "true");
-        localStorage.setItem("votosGerais", JSON.stringify(votosGerais));
         jaVotou = true;
 
         document.getElementById("tela").innerHTML = `<div class="fim-screen">FIM</div>`;
-        atualizarApuracao();
       }
     }
 
-    function atualizarApuracao() {
-      const total = votosGerais.total || 0;
-      const v22 = votosGerais["22"];
-      const v13 = votosGerais["13"];
+    window.atualizarApuracaoGlobal = function(data) {
+      const total = data.total || 0;
+      const v22 = data.v22 || 0;
+      const v13 = data.v13 || 0;
 
       const p22 = total > 0 ? ((v22 / total) * 100).toFixed(1) : "0.0";
       const p13 = total > 0 ? ((v13 / total) * 100).toFixed(1) : "0.0";
@@ -602,10 +483,9 @@
       document.getElementById("votos-13").innerText = v13;
       document.getElementById("perc-13").innerText = p13 + "%";
       document.getElementById("barra-13").style.width = p13 + "%";
-    }
+    };
 
     atualizarTela();
-    atualizarApuracao();
   </script>
 </body>
 </html>
