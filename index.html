@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador de Urna Eletrônica 2026</title>
+  <title>Urna Cidadã 2026 - Simulador e Pesquisa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Rawline:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -14,8 +14,6 @@
       --card-bg: #1e293b;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --urna-body: #d1d5db;
-      --urna-border: #9ca3af;
       --screen-bg: #edf2f7;
     }
 
@@ -32,23 +30,23 @@
       min-height: 100vh;
     }
 
-    /* Topo / Header */
-    .header-title {
+    /* Cabeçalho e Logo */
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
       text-align: center;
-      margin-bottom: 10px;
     }
-    .header-title h1 {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(90deg, #38bdf8, #818cf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+
+    .logo-svg {
+      max-width: 100%;
+      height: auto;
     }
-    .header-title p {
+
+    .header-sub {
       color: var(--text-muted);
       font-size: 14px;
-      margin-top: 4px;
     }
 
     /* Seletor do Estado */
@@ -315,14 +313,38 @@
 </head>
 <body>
 
-  <div class="header-title">
-    <h1>Simulador de Urna Eletrônica</h1>
-    <p>Levantamento e Pesquisa de Intenção de Voto</p>
+  <!-- Cabeçalho com a Logo Urna Cidadã 2026 -->
+  <div class="header-container">
+    <svg class="logo-svg" width="280" height="65" viewBox="0 0 280 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ícone da Urna -->
+      <rect x="5" y="8" width="50" height="50" rx="12" fill="url(#logo_gradiente)"/>
+      <rect x="15" y="19" width="30" height="22" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="2"/>
+      <rect x="19" y="23" width="12" height="14" rx="1" fill="#22C55E"/>
+      <circle cx="37" cy="26" r="2" fill="#F97316"/>
+      <circle cx="37" cy="32" r="2" fill="#3B82F6"/>
+      <path d="M22 30L24 32L28 26" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Texto do Nome do Site -->
+      <text x="68" y="36" font-family="'Inter', sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">
+        Urna<tspan fill="#38BDF8">Cidadã</tspan>
+      </text>
+      <text x="68" y="50" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="2">
+        SIMULADOR 2026
+      </text>
+
+      <defs>
+        <linearGradient id="logo_gradiente" x1="5" y1="8" x2="55" y2="58" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#1E293B"/>
+          <stop offset="1" stop-color="#0F172A"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <p class="header-sub">Levantamento e Pesquisa Independente de Intenção de Voto</p>
   </div>
 
   <!-- Seleção do Estado -->
   <div class="seletor-card">
-    <label for="uf">📍 Estado da Votação:</label>
+    <label for="uf">📍 Selecione seu Estado para Votar:</label>
     <select id="uf" onchange="selecionarEstado()">
       <option value="">-- Escolha o seu Estado --</option>
       <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
@@ -409,7 +431,7 @@
   </div>
 
   <script>
-    // Configuração dos Candidatos (Substitua as imagens se desejar)
+    // Mapeamento dos Candidatos
     const candidatos = {
       "22": { nome: "Flávio Bolsonaro", partido: "PL", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg/240px-Fl%C3%A1vio_Bolsonaro_foto_oficial.jpg" },
       "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Lula_-_Foto_oficial_05_jan_2023.jpg/240px-Lula_-_Foto_oficial_05_jan_2023.jpg" }
@@ -420,7 +442,7 @@
     let estadoSelecionado = "";
     let jaVotou = localStorage.getItem("jaVotouSimulador");
 
-    // Som da Urna via AudioContext
+    // Efeitos Sonoros da Urna
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep(freq, duration) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
