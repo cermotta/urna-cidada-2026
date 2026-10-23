@@ -145,10 +145,11 @@
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
       overflow: hidden;
     }
-    .foto-candidato svg {
+    .foto-candidato img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     .digitos-box { display: flex; gap: 8px; margin: 15px 0; }
@@ -434,24 +435,14 @@
   </div>
 
   <script>
-    // Ilustrações Vetoriais em SVG dos Candidatos
-    const svgFlavio = `<svg viewBox="0 0 110 135" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="110" height="135" fill="#1E293B"/>
-      <circle cx="55" cy="48" r="24" fill="#3B82F6"/>
-      <path d="M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z" fill="#3B82F6"/>
-      <text x="55" y="128" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle">FLÁVIO (22)</text>
-    </svg>`;
+    // Imagens dinâmicas geradas em SVG (vetoriais)
+    const imgFlavio = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 135'><rect width='110' height='135' fill='%231E293B'/><circle cx='55' cy='48' r='24' fill='%233B82F6'/><path d='M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z' fill='%233B82F6'/><text x='55' y='128' font-family='sans-serif' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>FL%C3%81VIO (22)</text></svg>";
 
-    const svgLula = `<svg viewBox="0 0 110 135" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="110" height="135" fill="#1E293B"/>
-      <circle cx="55" cy="48" r="24" fill="#EF4444"/>
-      <path d="M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z" fill="#EF4444"/>
-      <text x="55" y="128" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle">LULA (13)</text>
-    </svg>`;
+    const imgLula = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 135'><rect width='110' height='135' fill='%231E293B'/><circle cx='55' cy='48' r='24' fill='%23EF4444'/><path d='M20 120C20 90 35 78 55 78C75 78 90 90 90 120V135H20V120Z' fill='%23EF4444'/><text x='55' y='128' font-family='sans-serif' font-weight='bold' font-size='12' fill='%23FFFFFF' text-anchor='middle'>LULA (13)</text></svg>";
 
     const candidatos = {
-      "22": { nome: "Flávio Bolsonaro", partido: "PL", svg: svgFlavio },
-      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", svg: svgLula }
+      "22": { nome: "Flávio Bolsonaro", partido: "PL", fotoUrl: imgFlavio },
+      "13": { nome: "Luiz Inácio Lula da Silva", partido: "PT", fotoUrl: imgLula }
     };
 
     let numeroDigitado = "";
@@ -459,7 +450,7 @@
     let estadoSelecionado = "";
     let jaVotou = localStorage.getItem("jaVotouSimulador");
 
-    // Sistema de Áudio da Urna Eletrônica Oficial
+    // Sistema de Áudio da Urna Eletrônica
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function somTecla() {
@@ -475,7 +466,6 @@
       osc.stop(audioCtx.currentTime + 0.06);
     }
 
-    // Som Fim / Confirma Oficial ("Pirililililili")
     function somPirililili() {
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const now = audioCtx.currentTime;
@@ -485,14 +475,13 @@
       osc.type = 'sine';
       gain.gain.setValueAtTime(0.2, now);
 
-      // Sequência de Notas do Fim da Urna Oficial
       osc.frequency.setValueAtTime(520, now);
       osc.frequency.setValueAtTime(660, now + 0.08);
       osc.frequency.setValueAtTime(880, now + 0.16);
       osc.frequency.setValueAtTime(1040, now + 0.24);
       osc.frequency.setValueAtTime(1320, now + 0.32);
       osc.frequency.setValueAtTime(1760, now + 0.40);
-      osc.frequency.setValueAtTime(2100, now + 0.48); // Apito longo final
+      osc.frequency.setValueAtTime(2100, now + 0.48);
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -529,7 +518,7 @@
         if (candidatos[numeroDigitado]) {
           const cand = candidatos[numeroDigitado];
           infoEl.innerHTML = `Nome: <strong>${cand.nome}</strong><br/>Partido: <strong>${cand.partido}</strong>`;
-          fotoEl.innerHTML = cand.svg;
+          fotoEl.innerHTML = `<img src="${cand.fotoUrl}" alt="${cand.nome}">`;
           fotoEl.style.display = "block";
         } else {
           infoEl.innerHTML = "<br/><strong>VOTO NULO</strong>";
