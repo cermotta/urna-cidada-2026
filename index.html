@@ -131,7 +131,7 @@
       color: #0f172a;
     }
 
-    /* Moldura da Foto do Candidato */
+    /* Moldura da Foto do Candidato (Ajustada) */
     .foto-candidato {
       position: absolute;
       right: 20px;
@@ -149,6 +149,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
       display: block;
     }
 
@@ -435,7 +436,7 @@
   </div>
 
   <script>
-    // Mapeamento com as imagens fornecidas
+    // Mapeamento com as imagens e referrer ajustados
     const candidatos = {
       "22": { 
         nome: "Flávio Bolsonaro", 
